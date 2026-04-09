@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyFlow Pro — Advanced AI Study Platform</title>
+  
+  <!-- PWA Meta -->
+  <meta name="description" content="Professional study platform for advanced mathematics, physics, engineering, and more. Solve masters-level problems with powerful AI tools.">
+  <meta name="theme-color" content="#0f172a">
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- External Libraries (All Free, No API Keys) -->
+  <!-- Math.js - Advanced Mathematics -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/12.4.0/math.min.js"></script>
+  
+  <!-- KaTeX - LaTeX Rendering -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+  
+  <!-- Plotly - Interactive Graphs -->
+  <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+  
+  <!-- Mermaid - Advanced Diagrams -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+  
+  <!-- Highlight.js - Code Syntax -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Crimson+Pro:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <div class="logo-section">
+          <div class="logo-icon">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <h1 class="logo-title">StudyFlow Pro</h1>
+            <p class="logo-subtitle">Advanced Study Platform</p>
+          </div>
+        </div>
+        
+        <div class="header-actions">
+          <button class="btn-icon" id="themeToggle" title="Toggle Theme">
+            <svg class="sun-icon" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 1V3M12 21V23M4.22 4.22L5.64 5.64M18.36 18.36L19.78 19.78M1 12H3M21 12H23M4.22 19.78L5.64 18.36M18.36 5.64L19.78 4.22" stroke="currentColor" stroke-width="2"/>
+            </svg>
+            <svg class="moon-icon" viewBox="0 0 24 24" fill="none">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </button>
+          
+          <button class="btn-icon" id="historyBtn" title="View History">
+            <svg viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 6V12L16 14" stroke="currentColor" stroke-width="2"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="main-container">
+    <div class="container">
+      
+      <!-- Feature Navigation -->
+      <nav class="feature-nav" id="featureNav">
+        <button class="feature-btn active" data-feature="solver">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M9 11L12 14L22 4" stroke="currentColor" stroke-width="2"/>
+            <path d="M21 12V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H16" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span>Advanced Solver</span>
+        </button>
+        
+        <button class="feature-btn" data-feature="calculator">
+          <svg viewBox="0 0 24 24" fill="none">
+            <rect x="4" y="2" width="16" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+            <path d="M8 6H16M8 10H10M14 10H16M8 14H10M14 14H16M8 18H16" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span>Symbolic Math</span>
+        </button>
+        
+        <button class="feature-btn" data-feature="grapher">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M3 3V21H21" stroke="currentColor" stroke-width="2"/>
+            <path d="M7 14L12 9L16 13L21 8" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span>Graph Plotter</span>
+        </button>
+        
+        <button class="feature-btn" data-feature="matrix">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M4 4H8V8H4V4ZM10 4H14V8H10V4ZM16 4H20V8H16V4ZM4 10H8V14H4V10ZM10 10H14V14H10V10ZM16 10H20V14H16V10ZM4 16H8V20H4V16ZM10 16H14V20H10V16ZM16 16H20V20H16V16Z" stroke="currentColor" stroke-width="1.5"/>
+          </svg>
+          <span>Linear Algebra</span>
+        </button>
+        
+        <button class="feature-btn" data-feature="calculus">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M4 20C4 20 6 16 12 16C18 16 20 20 20 20M4 12C4 12 6 8 12 8C18 8 20 12 20 12" stroke="currentColor" stroke-width="2"/>
+            <text x="12" y="6" text-anchor="middle" fill="currentColor" font-size="8">∫</text>
+          </svg>
+          <span>Calculus</span>
+        </button>
+        
+        <button class="feature-btn" data-feature="physics">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+            <path d="M12 3V12M12 12L17 17" stroke="currentColor" stroke-width="2"/>
+            <circle cx="12" cy="12" r="2" fill="currentColor"/>
+          </svg>
+          <span>Physics Engine</span>
+        </button>
+        
+        <button class="feature-btn" data-feature="notes">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M14 2H6C4.89543 2 4 2.89543 4 4V20C4 21.1046 4.89543 22 6 22H18C19.1046 22 20 21.1046 20 20V8L14 2Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M14 2V8H20" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span>Smart Notes</span>
+        </button>
+        
+        <button class="feature-btn" data-feature="research">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+            <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span>Research Assistant</span>
+        </button>
+        
+        <button class="feature-btn" data-feature="chat">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" stroke-width="2"/>
+          </svg>
+          <span>AI Chat</span>
+        </button>
+      </nav>
+
+      <!-- Content Area -->
+      <div class="content-wrapper">
+        
+        <!-- Advanced Solver Feature -->
+        <section class="feature-section active" id="solver-section">
+          <div class="section-header">
+            <h2>Advanced Problem Solver</h2>
+            <p>Solve masters-level problems with step-by-step explanations</p>
+          </div>
+          
+          <div class="input-area">
+            <label class="input-label">
+              <span>Subject Area</span>
+              <select class="select-input" id="solverSubject">
+                <option value="mathematics">Advanced Mathematics</option>
+                <option value="physics">Theoretical Physics</option>
+                <option value="engineering">Engineering</option>
+                <option value="chemistry">Quantum Chemistry</option>
+                <option value="statistics">Statistics & Probability</option>
+                <option value="cs">Computer Science</option>
+                <option value="economics">Economics & Finance</option>
+              </select>
+            </label>
+            
+            <label class="input-label">
+              <span>Problem Statement</span>
+              <textarea 
+                class="text-input" 
+                id="solverInput" 
+                rows="6" 
+                placeholder="Enter your problem here...&#10;&#10;Examples:&#10;• Solve the differential equation: dy/dx + 2y = 4e^x&#10;• Find eigenvalues of matrix [[3,1],[1,3]]&#10;• Derive the Schwarzschild metric&#10;• Prove convergence of series Σ(n=1 to ∞) 1/n²"
+              ></textarea>
+            </label>
+            
+            <div class="button-group">
+              <button class="btn-primary" id="solveBtn">
+                <svg viewBox="0 0 24 24" fill="none">
+                  <path d="M13 2L3 14H12L11 22L21 10H12L13 2Z" fill="currentColor"/>
+                </svg>
+                Solve Problem
+              </button>
+              
+              <button class="btn-secondary" id="clearSolverBtn">Clear</button>
+            </div>
+          </div>
+          
+          <div class="result-area" id="solverResult" style="display: none;">
+            <div class="result-header">
+              <h3>Solution</h3>
+              <div class="result-actions">
+                <button class="btn-icon-small" id="copySolverBtn" title="Copy to Clipboard">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <rect x="9" y="9" width="13" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
+                    <path d="M5 15H4C2.89543 15 2 14.1046 2 13V4C2 2.89543 2.89543 2 4 2H13C14.1046 2 15 2.89543 15 4V5" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                </button>
+                <button class="btn-icon-small" id="saveSolverBtn" title="Save to History">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M19 21H5C3.89543 21 3 20.1046 3 19V5C3 3.89543 3.89543 3 5 3H16L21 8V19C21 20.1046 20.1046 21 19 21Z" stroke="currentColor" stroke-width="2"/>
+                    <path d="M7 3V8H15" stroke="currentColor" stroke-width="2"/>
+                    <path d="M12 11V18M9 15L12 18L15 15" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                </button>
+                <button class="btn-icon-small" id="exportPdfBtn" title="Export to PDF">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M7 18H17V16H7V18Z" fill="currentColor"/>
+                    <path d="M17 14H7V12H17V14Z" fill="currentColor"/>
+                    <path d="M7 10H11V8H7V10Z" fill="currentColor"/>
+                    <path d="M19 3H5C3.89 3 3 3.89 3 5V19C3 20.1 3.89 21 5 21H19C20.1 21 21 20.1 21 19V5C21 3.89 20.1 3 19 3ZM19 19H5V5H19V19Z" fill="currentColor"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="result-content" id="solverContent"></div>
+          </div>
+        </section>
+
+        <!-- Symbolic Math Calculator Feature -->
+        <section class="feature-section" id="calculator-section">
+          <div class="section-header">
+            <h2>Symbolic Mathematics Calculator</h2>
+            <p>Perform symbolic computations, simplifications, and algebraic manipulations</p>
+          </div>
+          
+          <div class="input-area">
+            <label class="input-label">
+              <span>Expression</span>
+              <input 
+                type="text" 
+                class="text-input" 
+                id="calcInput" 
+                placeholder="e.g., (x^2 + 2x + 1) / (x + 1), sin(x)^2 + cos(x)^2, diff(x^3, x)"
+              />
+            </label>
+            
+            <div class="operation-grid">
+              <button class="op-btn" data-op="simplify">Simplify</button>
+              <button class="op-btn" data-op="expand">Expand</button>
+              <button class="op-btn" data-op="factor">Factor</button>
+              <button class="op-btn" data-op="derivative">Derivative</button>
+              <button class="op-btn" data-op="integral">Integral</button>
+              <button class="op-btn" data-op="solve">Solve</button>
+            </div>
+            
+            <div class="result-area" id="calcResult" style="display: none;">
+              <div class="result-content" id="calcContent"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Graph Plotter Feature -->
+        <section class="feature-section" id="grapher-section">
+          <div class="section-header">
+            <h2>Interactive Graph Plotter</h2>
+            <p>Visualize functions, data, and mathematical relationships</p>
+          </div>
+          
+          <div class="input-area">
+            <div class="graph-controls">
+              <label class="input-label">
+                <span>Function(s)</span>
+                <input 
+                  type="text" 
+                  class="text-input" 
+                  id="graphInput" 
+                  placeholder="e.g., sin(x), x^2, e^x (separate multiple with comma)"
+                />
+              </label>
+              
+              <div class="range-controls">
+                <label class="input-label compact">
+                  <span>X Range</span>
+                  <div class="range-inputs">
+                    <input type="number" id="xMin" value="-10" step="0.1" />
+                    <span>to</span>
+                    <input type="number" id="xMax" value="10" step="0.1" />
+                  </div>
+                </label>
+                
+                <button class="btn-primary" id="plotBtn">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M3 3V21H21" stroke="currentColor" stroke-width="2"/>
+                    <path d="M7 14L12 9L16 13L21 8" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  Plot Graph
+                </button>
+              </div>
+            </div>
+            
+            <div id="graphPlot" class="graph-container"></div>
+          </div>
+        </section>
+
+        <!-- Matrix/Linear Algebra Feature -->
+        <section class="feature-section" id="matrix-section">
+          <div class="section-header">
+            <h2>Linear Algebra Tools</h2>
+            <p>Matrix operations, eigenvalues, determinants, and more</p>
+          </div>
+          
+          <div class="input-area">
+            <label class="input-label">
+              <span>Matrix Input (rows separated by semicolons)</span>
+              <textarea 
+                class="text-input" 
+                id="matrixInput" 
+                rows="4" 
+                placeholder="Example: [[1,2,3];[4,5,6];[7,8,9]] or [[3,1];[1,3]]"
+              ></textarea>
+            </label>
+            
+            <div class="operation-grid">
+              <button class="matrix-btn" data-op="det">Determinant</button>
+              <button class="matrix-btn" data-op="inv">Inverse</button>
+              <button class="matrix-btn" data-op="eig">Eigenvalues</button>
+              <button class="matrix-btn" data-op="transpose">Transpose</button>
+              <button class="matrix-btn" data-op="rank">Rank</button>
+              <button class="matrix-btn" data-op="lu">LU Decomposition</button>
+            </div>
+            
+            <div class="result-area" id="matrixResult" style="display: none;">
+              <div class="result-content" id="matrixContent"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Calculus Feature -->
+        <section class="feature-section" id="calculus-section">
+          <div class="section-header">
+            <h2>Advanced Calculus</h2>
+            <p>Derivatives, integrals, limits, and series</p>
+          </div>
+          
+          <div class="input-area">
+            <label class="input-label">
+              <span>Function</span>
+              <input 
+                type="text" 
+                class="text-input" 
+                id="calculusInput" 
+                placeholder="e.g., x^2 * sin(x), e^x / (1 + x^2)"
+              />
+            </label>
+            
+            <label class="input-label">
+              <span>Variable</span>
+              <input 
+                type="text" 
+                class="text-input" 
+                id="calculusVar" 
+                value="x" 
+                placeholder="x"
+              />
+            </label>
+            
+            <div class="operation-grid">
+              <button class="calc-btn" data-op="derivative">∂/∂x Derivative</button>
+              <button class="calc-btn" data-op="integral">∫ Integral</button>
+              <button class="calc-btn" data-op="limit">lim Limit</button>
+              <button class="calc-btn" data-op="taylor">Taylor Series</button>
+            </div>
+            
+            <div class="result-area" id="calculusResult" style="display: none;">
+              <div class="result-content" id="calculusContent"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Physics Engine Feature -->
+        <section class="feature-section" id="physics-section">
+          <div class="section-header">
+            <h2>Physics Simulation Engine</h2>
+            <p>Solve physics problems with visualization</p>
+          </div>
+          
+          <div class="input-area">
+            <label class="input-label">
+              <span>Physics Problem</span>
+              <textarea 
+                class="text-input" 
+                id="physicsInput" 
+                rows="5" 
+                placeholder="Describe your physics problem...&#10;&#10;Examples:&#10;• Projectile motion: v₀=20 m/s, θ=45°&#10;• Simple harmonic motion: m=2kg, k=50 N/m&#10;• Orbital mechanics: central body mass, satellite velocity"
+              ></textarea>
+            </label>
+            
+            <button class="btn-primary" id="physicsBtn">
+              <svg viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/>
+                <path d="M12 3V12M12 12L17 17" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Solve & Visualize
+            </button>
+            
+            <div class="result-area" id="physicsResult" style="display: none;">
+              <div class="result-content" id="physicsContent"></div>
+              <div id="physicsPlot" class="graph-container"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Smart Notes Feature -->
+        <section class="feature-section" id="notes-section">
+          <div class="section-header">
+            <h2>Smart Notes Generator</h2>
+            <p>Create structured notes with LaTeX, diagrams, and code</p>
+          </div>
+          
+          <div class="input-area">
+            <label class="input-label">
+              <span>Topic</span>
+              <input 
+                type="text" 
+                class="text-input" 
+                id="notesTopic" 
+                placeholder="e.g., Fourier Analysis, Quantum Mechanics, Machine Learning"
+              />
+            </label>
+            
+            <label class="input-label">
+              <span>Note Style</span>
+              <select class="select-input" id="notesStyle">
+                <option value="cornell">Cornell Notes</option>
+                <option value="outline">Detailed Outline</option>
+                <option value="mindmap">Mind Map</option>
+                <option value="flashcards">Flashcards</option>
+                <option value="summary">Summary Sheet</option>
+              </select>
+            </label>
+            
+            <button class="btn-primary" id="notesBtn">Generate Notes</button>
+            
+            <div class="result-area" id="notesResult" style="display: none;">
+              <div class="result-content" id="notesContent"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Research Assistant Feature -->
+        <section class="feature-section" id="research-section">
+          <div class="section-header">
+            <h2>Research Assistant</h2>
+            <p>Literature review, paper analysis, and research synthesis</p>
+          </div>
+          
+          <div class="input-area">
+            <label class="input-label">
+              <span>Research Query</span>
+              <textarea 
+                class="text-input" 
+                id="researchInput" 
+                rows="5" 
+                placeholder="Enter your research question or topic...&#10;&#10;Examples:&#10;• Survey recent advances in transformer architectures&#10;• Compare gradient descent optimization methods&#10;• Explain applications of eigenvalue decomposition"
+              ></textarea>
+            </label>
+            
+            <button class="btn-primary" id="researchBtn">
+              <svg viewBox="0 0 24 24" fill="none">
+                <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2"/>
+                <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2"/>
+              </svg>
+              Research
+            </button>
+            
+            <div class="result-area" id="researchResult" style="display: none;">
+              <div class="result-content" id="researchContent"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- AI Chat Assistant Feature -->
+        <section class="feature-section" id="chat-section">
+          <div class="section-header">
+            <h2>AI Chat Assistant</h2>
+            <p>Your friendly study companion for all topics - academic, general, or just a chat!</p>
+          </div>
+          
+          <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+              <div class="message assistant-message">
+                <div class="message-avatar">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2"/>
+                    <path d="M2 17L12 22L22 17M2 12L12 17L22 12" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                </div>
+                <div class="message-content">
+                  <div class="message-text">
+                    <p>👋 Hey there! I'm your AI study companion.</p>
+                    <p>I can help you with:</p>
+                    <ul>
+                      <li>📚 Study topics and homework</li>
+                      <li>💭 General questions and curiosity</li>
+                      <li>🎯 Study tips and motivation</li>
+                      <li>🤔 Deep discussions on any subject</li>
+                      <li>😊 Just chatting and friendly conversation</li>
+                    </ul>
+                    <p>What's on your mind today?</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="chat-input-area">
+              <div class="quick-actions">
+                <button class="quick-btn" data-msg="Help me understand quantum physics">Quantum Physics</button>
+                <button class="quick-btn" data-msg="I need study motivation">Study Tips</button>
+                <button class="quick-btn" data-msg="Explain artificial intelligence">AI Explained</button>
+                <button class="quick-btn" data-msg="How does the brain learn?">How We Learn</button>
+                <button class="quick-btn" data-msg="Tell me something interesting">Surprise Me!</button>
+              </div>
+              
+              <div class="chat-input-wrapper">
+                <textarea 
+                  class="chat-input" 
+                  id="chatInput" 
+                  placeholder="Type your message... Ask anything!"
+                  rows="1"
+                ></textarea>
+                <button class="btn-send" id="sendChatBtn">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 8L11 13" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                </button>
+              </div>
+              
+              <div class="chat-actions">
+                <button class="btn-chat-action" id="clearChatBtn">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M3 6H21M19 6V20C19 21 18 22 17 22H7C6 22 5 21 5 20V6M8 6V4C8 3 9 2 10 2H14C15 2 16 3 16 4V6" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  Clear Chat
+                </button>
+                <button class="btn-chat-action" id="exportChatBtn">
+                  <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M21 15V19C21 20.1 20.1 21 19 21H5C3.9 21 3 20.1 3 19V15M7 10L12 15M12 15L17 10M12 15V3" stroke="currentColor" stroke-width="2"/>
+                  </svg>
+                  Export
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- History Modal -->
+  <div class="modal" id="historyModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>History</h2>
+        <button class="btn-icon-small" id="closeHistoryBtn">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2"/>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body" id="historyList"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>StudyFlow Pro • Advanced Study Platform • Built with Math.js, KaTeX, Plotly • No API Keys Required</p>
+      <p class="footer-note">All computations run locally in your browser • Data stored offline</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+  
+  <script>
+    // Initialize Mermaid
+    mermaid.initialize({ 
+      startOnLoad: false,
+      theme: 'dark',
+      securityLevel: 'loose'
+    });
+    
+    // Initialize Highlight.js
+    hljs.highlightAll();
+  </script>
+</body>
+</html>
